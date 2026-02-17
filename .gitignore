@@ -1,6 +1,9 @@
 # Ignore archive
 archive/
 
+#venv
+.api_flask/
+
 # Ignore data
 data/
 src/data
@@ -24,3 +27,4 @@ jupyter-config/.ipynb_checkpoints/*
 
 # misc
 expected_results/
+.idea/
