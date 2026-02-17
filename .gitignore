@@ -1,0 +1,26 @@
+# Ignore archive
+archive/
+
+# Ignore data
+data/
+src/data
+
+# Ignore API-token
+kaggle.json
+
+# Ignore Keys
+gcp.key*
+jupyter-config/.env
+jupyter-config/certs/
+
+# Ignore submissions
+submission*.csv
+
+# Ignore my properties
+tpu_config.properties
+# Ignore checkpoints
+*.ipynb_checkpoints*
+jupyter-config/.ipynb_checkpoints/*
+
+# misc
+expected_results/
