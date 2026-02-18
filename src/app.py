@@ -19,14 +19,18 @@ input_db_columns = ['id', 'age','sex','chest_pain_type','bp','cholesterol','fbs_
 db_columns = ['id', 'age','sex','chest_pain_type','bp','cholesterol','fbs_over_120','ekg_results','max_hr','exercise_angina','st_depression','slope_of_st','number_of_vessels_fluro','thallium', 'prediction']    
 df_columns = ["id", "Age", "Sex", "Chest pain type", "BP", "Cholesterol", "FBS over 120", "EKG results", "Max HR", "Exercise angina", "ST depression", "Slope of ST", "Number of vessels fluro", "Thallium"]
 
-conn = psycopg2.connect(database="heartdisease_db",
-                    user='postgres', password='postgres', 
-                    host='127.0.0.1', port='5858'
-)
-conn.autocommit = True
-cursor = conn.cursor()
-#cursor.close()
-#conn.close()
+def set_db():
+    conn = psycopg2.connect(database="heartdisease_db",
+                        user='postgres', password='postgres', 
+                        host='127.0.0.1', port='5858')
+    conn.autocommit = True
+    cursor = conn.cursor()
+
+    return conn, cursor
+
+def close_db(conn, cursor):
+    cursor.close()
+    conn.close()
 
 app = Flask(__name__)
 
@@ -54,6 +58,7 @@ def upload_file():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
+            conn, cursor = set_db()
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             
@@ -66,7 +71,7 @@ def upload_file():
             # Notice that we don't need the csv module.
                 next(f) # Skip the header row.
                 cursor.copy_from(f, 'patient_details', columns=input_db_columns, sep=',')
-
+            close_db(conn, cursor)
             return render_template('index2.html')  
               
     return render_template("index.html")
@@ -93,6 +98,8 @@ def showPrediction():
 @app.route('/show_db', methods=['GET', 'POST'])
 @app.route('/show_db/<patient_id>', methods=['GET'])
 def showDatabase(patient_id=None):
+    conn, cursor = set_db()
+    
     if request.method == 'POST':
         patient_id = request.form.get('patient_id')
         print(f"Request method POST:\Patient ID:{patient_id}")
@@ -122,7 +129,7 @@ def showDatabase(patient_id=None):
     uploaded_df_html = df[['id', 'Prediction']].drop_duplicates().to_html(index=False)
 
     
-    
+    close_db(conn, cursor)
     return render_template('show_db_data.html',
                            data_var=uploaded_df_html)
 
