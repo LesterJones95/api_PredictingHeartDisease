@@ -1,15 +1,18 @@
-## Run src
+## Run and intialize db
+```bash
+    cd db
+    docker-compose -f docker-compose.yaml up
+    
+    #only necessary once
+    python ./init_fill_db.py
+```
+
+## Run webapp
 ```bash
     flask --app ./src/app.py run --debug #--host=0.0.0.0
 ```
 
-## Run and intialize db
-```bash
-    docker-compose -f docker-compose.yaml up
-    
-    #only necessary once we have a volumn
-    python ./init_fill_db.py
-```
+
 
 ## Create and activate venv (windows)
 ```bash
