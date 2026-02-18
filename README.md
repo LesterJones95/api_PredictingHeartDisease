@@ -30,4 +30,3 @@
 
 - https://www.geeksforgeeks.org/python/python-import-csv-into-postgresql/
 - https://medium.com/@vinod.chelladuraiv/postgresql-pgadmin-and-python-inside-docker-e1b9bbc5b617 
-- https://dev.to/effylh/display-recent-queries-on-web-page-from-postgresql-database-with-flaskpsycopg2bootstrap-3of4
