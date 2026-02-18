@@ -1,0 +1,13 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: heartdisease_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "0.0.0.0:5858:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

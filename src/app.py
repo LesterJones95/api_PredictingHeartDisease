@@ -6,7 +6,8 @@ import pandas as pd
 import os
 from werkzeug.utils import secure_filename
 import ydf
-
+import psycopg2 
+from sqlalchemy import create_engine, text
 
 UPLOAD_FOLDER = './uploads'
 
@@ -66,6 +67,52 @@ def showPrediction():
     return render_template('show_csv_data.html',
                            data_var=uploaded_df_html)
 
+
+@app.route('/show_db')
+def showDatabase():
+    conn = psycopg2.connect(database="heartdisease_db",
+                        user='postgres', password='postgres', 
+                        host='127.0.0.1', port='5858'
+)
+    conn.autocommit = True
+    cursor = conn.cursor()
+
+    #sql3 = '''select id,prediction from patient_details;'''
+    #cursor.execute(sql3)
+    #rowResults=cursor.fetchall()
+    
+    cursor.execute("SELECT * FROM patient_details")
+
+    rows = cursor.fetchall()
+
+    columns = ['id', 'age','sex','chest_pain_type','bp','cholesterol','fbs_over_120','ekg_results','max_hr','exercise_angina','st_depression','slope_of_st','number_of_vessels_fluro','thallium', 'prediction']    
+    df = pd.DataFrame(rows, columns=columns)
+    #print(df)
+    df = df.drop('prediction', axis=1)
+    
+    replace_columns = ["id", "Age", "Sex", "Chest pain type", "BP", "Cholesterol", "FBS over 120", "EKG results", "Max HR", "Exercise angina", "ST depression", "Slope of ST", "Number of vessels fluro", "Thallium"]
+    df = df.set_axis([replace_columns], axis=1)
+    print("------------------------------------------------------------")
+    print(df.columns)
+    print(type(df.columns[0]))
+    df.columns = df.columns.get_level_values(0)
+
+    print("Starting to predict ....\n")
+    predictions = TRAINED_MODEL.predict(df.loc[ : , df.columns != 'id'])
+    print("Finsihed....\n")
+    df['Prediction'] = predictions
+    #If json convert to csv
+    #predictions = TRAINED_MODEL.predict(uploaded_df)
+    #uploaded_df['Prediction'] = predictions
+    # Converting to html Table
+    #uploaded_results_html = rowResults.to_html()
+    uploaded_df_html = df[['id', 'Prediction']].to_html()
+
+    df.columns.get_level_values(0)
+    cursor.close()
+    conn.close()
+    return render_template('show_db_data.html',
+                           data_var=uploaded_df_html)
 
 
 if __name__ == '__main__':

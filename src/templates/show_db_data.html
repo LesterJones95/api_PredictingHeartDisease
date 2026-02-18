@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Display recent database queries</title>
+    <!-- CSS stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<body>
+        <br>
+        <form action="/">
+        <input type = "submit" value="Home">  
+    </form>
+    <br>
+    {{ data_var|safe }}
+    <table class="table table-hover table-dark table-striped" cellspacing="0">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" style="text-align:left">Patient ID</th>
+            <th scope="col">Prediction</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if data_var==[] %}
+        <p>
+            Not enough data
+        </p>
+        {% else %}
+        {% for i in range(0,10) %}
+        <tr>
+            <th scope="row">{{i+1}}</th>
+            <td align="left">
+                <p>{{data_var[i][0]}}</p>
+            </td>
+            <td>
+                <p>{{data_var[i][1]}}</p>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+        </tbody>
+    </table>
+</body>
+</html>
