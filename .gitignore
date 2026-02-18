@@ -6,7 +6,7 @@ archive/
 
 # Ignore data
 data/
-src/data
+uploads/
 
 # Ignore API-token
 kaggle.json

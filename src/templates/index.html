@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html>  
 <head>  
-    <title>Uploading & Reading CSV file</title>  
+    <title>Heart Disease Predictor</title>  
 </head>  
 <body>  
     <form method = "POST" enctype="multipart/form-data" action = "/">    
         <input type="file" name="file" accept=".csv">
-        <input type = "submit" value="Upload">  
+        <input type = "submit" value="Upload"> 
     </form>
     <p style="color:blue;">Choose csv file to upload</p>
-  <form action="/show_data" target="_blank">
-        <input type="submit" value="Show CSV"/>
+    
+    <form action="/show_db">
+        <input type = "submit" value="Show Database">  
+    </form> 
+
+    <form action="/show_db" method="POST">
+        Enter Patient ID: <input name="patient_id">
+        <button type="submit">Search</button>
     </form>
 </body>  
 </html>
