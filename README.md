@@ -71,7 +71,15 @@ On your local machine
     docker run -p 5000:5000 --network=host heart-disease-gui
 ```
 
+## Containerize Database [optional]
+```bash
+    # From root
+    pip freeze > requirements-freeze.txt
 
+    # In Docker: Settings>Resources>Network> enable host networking = checked
+    docker build -t heart-disease-db -f Dockerfile_db .
+    docker run heart-disease-db
+```
 
 
 

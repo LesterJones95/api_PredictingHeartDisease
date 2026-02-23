@@ -1,0 +1,13 @@
+FROM postgres:latest
+
+# Set environment variables
+ENV POSTGRES_DB=heartdisease_db \
+    POSTGRES_USER=postgres \
+    POSTGRES_PASSWORD=postgres \
+    PGPORT=5858
+
+# Copy initialization script
+COPY ./db/init.sql /docker-entrypoint-initdb.d/init.sql
+
+# Expose custom port
+EXPOSE 5858
