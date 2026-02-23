@@ -61,7 +61,15 @@ On your local machine
     flask --app ./src/app.py run #--debug --host=0.0.0.0
 ```
 
+## Containerize Flask App [optional]
+```bash
+    # From root
+    pip freeze > requirements-freeze.txt
 
+    # In Docker: Settings>Resources>Network> enable host networking = checked
+    docker build -t heart-disease-gui .
+    docker run -p 5000:5000 --network=host heart-disease-gui
+```
 
 
 
