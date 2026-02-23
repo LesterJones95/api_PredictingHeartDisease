@@ -61,7 +61,15 @@ On your local machine
     flask --app ./src/app.py run #--debug --host=0.0.0.0
 ```
 
+## Containerize Flask App [optional]
+```bash
+    # From root
+    pip freeze > requirements-freeze.txt
 
+    # In Docker: Settings>Resources>Network> enable host networking = checked
+    docker build -t heart-disease-gui .
+    docker run -p 5000:5000 --network=host heart-disease-gui
+```
 
 
 
@@ -73,3 +81,56 @@ On your local machine
 
 - https://www.geeksforgeeks.org/python/python-import-csv-into-postgresql/
 - https://medium.com/@vinod.chelladuraiv/postgresql-pgadmin-and-python-inside-docker-e1b9bbc5b617 
+
+# Appendix A <br/>
+```bash
+    2.743 Collecting psycopg2==2.9.11 (from -r requirements.txt (line 13))
+    2.758   Downloading psycopg2-2.9.11.tar.gz (379 kB)
+    2.882   Installing build dependencies: started
+    3.601   Installing build dependencies: finished with status 'done'
+    3.602   Getting requirements to build wheel: started
+    3.966   Getting requirements to build wheel: finished with status 'error'
+    3.973   error: subprocess-exited-with-error
+    3.973
+    3.973   × Getting requirements to build wheel did not run successfully.
+    3.973   │ exit code: 1
+    3.973   ╰─> [34 lines of output]
+    3.973       /tmp/pip-build-env-7ots07te/overlay/lib/python3.11/site-packages/setuptools/dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.  
+    3.973       !!
+    3.973
+    3.973               ********************************************************************************
+    3.973               Please consider removing the following classifiers in favor of a SPDX license expression:
+    3.973
+    3.973               License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+    3.973
+    3.973               See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+    3.973               ********************************************************************************
+    3.973
+    3.973       !!
+    3.973         self._finalize_license_expression()
+    3.973       running egg_info
+    3.973       writing psycopg2.egg-info/PKG-INFO
+    3.973       writing dependency_links to psycopg2.egg-info/dependency_links.txt
+    3.973       writing top-level names to psycopg2.egg-info/top_level.txt
+    3.973
+    3.973       Error: pg_config executable not found.
+    3.973
+    3.973       pg_config is required to build psycopg2 from source.  Please add the directory
+    3.973       containing pg_config to the $PATH or specify the full executable path with the
+    3.973       option:
+    3.973
+    3.973           python setup.py build_ext --pg-config /path/to/pg_config build ...
+    3.973
+    3.973       or with the pg_config option in 'setup.cfg'.
+    3.973
+    3.973       If you prefer to avoid building psycopg2 from source, please install the PyPI
+    3.973       'psycopg2-binary' package instead.
+    3.973
+    3.973       For further information please check the 'doc/src/install.rst' file (also at
+    3.973       <https://www.psycopg.org/docs/install.html>).
+    3.973
+    3.973       [end of output]
+    3.973
+    3.973   note: This error originates from a subprocess, and is likely not a problem with pip.
+    3.977 ERROR: Failed to build 'psycopg2' when getting requirements to build wheel
+```
