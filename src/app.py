@@ -9,6 +9,9 @@ import ydf
 import psycopg2 
 from sqlalchemy import create_engine, text
 
+
+print(f"Working with:\nPOSTGRES DB: {os.environ.get('POSTGRES_DB')}")
+print(f"POSTGRES HOST:PORT: {os.environ.get('POSTGRES_HOST')}:{os.environ.get('POSTGRES_PORT')}")
 UPLOAD_FOLDER = './uploads'
 
 # Define allowed files
@@ -20,9 +23,9 @@ db_columns = ['id', 'age','sex','chest_pain_type','bp','cholesterol','fbs_over_1
 df_columns = ["id", "Age", "Sex", "Chest pain type", "BP", "Cholesterol", "FBS over 120", "EKG results", "Max HR", "Exercise angina", "ST depression", "Slope of ST", "Number of vessels fluro", "Thallium"]
 
 def set_db():
-    conn = psycopg2.connect(database="heartdisease_db",
-                        user='postgres', password='postgres', 
-                        host='127.0.0.1', port='5858')
+    conn = psycopg2.connect(database=os.getenv('POSTGRES_DB'),
+                        user=os.getenv('POSTGRES_USER'), password=os.getenv('POSTGRES_PASSWORD'), 
+                        host=os.getenv('POSTGRES_HOST'), port=os.getenv('POSTGRES_PORT'))
     conn.autocommit = True
     cursor = conn.cursor()
 

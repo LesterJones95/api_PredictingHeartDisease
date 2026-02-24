@@ -69,6 +69,10 @@ On your local machine
     # In Docker: Settings>Resources>Network> enable host networking = checked
     docker build -t heart-disease-gui .
     docker run -p 5000:5000 --network=host heart-disease-gui
+
+    #v2
+    docker build -t heart-disease-gui:v2 .
+    docker run -p 5000:5000 --env-file .env --network=host heart-disease-gui:v2    
 ```
 
 ## Containerize Database [optional]
